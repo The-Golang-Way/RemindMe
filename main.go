@@ -3,11 +3,18 @@ package main
 import (
 	"fmt"
 	"os"
+	"strings"
 	"time"
 
+	"github.com/gen2brain/beeep"
 	"github.com/olebedev/when"
 	"github.com/olebedev/when/rules/common"
 	"github.com/olebedev/when/rules/en"
+)
+
+const (
+	markName = "hey_thats_me"
+	markValue = "1"
 )
 
 func main(){
@@ -36,5 +43,11 @@ func main(){
 	if now.After(t.Time){
 		fmt.Println("pick a time in the future!")
 		os.Exit(2)
+	}
+
+	timeDiff := t.Time.Sub(now)
+	if os.Getenv(markName) == markValue{
+		time.Sleep(timeDiff)
+		beeep.Alert("Reminder", strings.Join(os.Args[2:], " "), "assets/information.png" )
 	}
 }
