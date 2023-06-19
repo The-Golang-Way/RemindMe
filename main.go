@@ -33,4 +33,8 @@ func main(){
 		panic(err)
 	}
 
+	if now.After(t.Time){
+		fmt.Println("pick a time in the future!")
+		os.Exit(2)
+	}
 }
