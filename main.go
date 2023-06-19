@@ -21,4 +21,16 @@ func main(){
 
 	w.Add(en.All...)
 	w.Add(common.All...)
+
+	t, err := w.Parse(os.Args[1], now)
+
+	if t != nil {
+		fmt.Println("Can't parse time!")
+		panic(t)
+	}
+
+	if err != nil {
+		panic(err)
+	}
+
 }
