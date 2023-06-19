@@ -24,7 +24,7 @@ func main(){
 	}
 
 	now := time.Now()
-	when := when.New(nil)
+	w := when.New(nil)
 
 	w.Add(en.All...)
 	w.Add(common.All...)
