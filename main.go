@@ -48,6 +48,9 @@ func main(){
 	timeDiff := t.Time.Sub(now)
 	if os.Getenv(markName) == markValue{
 		time.Sleep(timeDiff)
-		beeep.Alert("Reminder", strings.Join(os.Args[2:], " "), "assets/information.png" )
+		err = beeep.Alert("Reminder", strings.Join(os.Args[2:], " "), "assets/information.png" )
+		if err != nil {
+			panic(err)
+		}
 	}
 }
