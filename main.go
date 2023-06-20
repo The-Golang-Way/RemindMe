@@ -55,6 +55,7 @@ func main(){
 		}
 	} else {
 		cmd := exec.Command(os.Args[0], os.Args[1:]...)
+		cmd.Env = append(os.Environ(), fmt.Sprintf("%s=%s", markName, markValue))
 		if err := cmd.Start(); err != nil {
 			panic(err)
 		}
