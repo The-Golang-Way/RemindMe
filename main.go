@@ -25,25 +25,26 @@ func main(){
 	}
 
 	now := time.Now()
+	
 	w := when.New(nil)
-
 	w.Add(en.All...)
 	w.Add(common.All...)
 
 	t, err := w.Parse(os.Args[1], now)
 
-	if t != nil {
+	if t == nil {
 		fmt.Println("Can't parse time!")
-		panic(t)
+		os.Exit(2)
 	}
 
 	if err != nil {
-		panic(err)
+		fmt.Println(err)
+		os.Exit(2)
 	}
 
 	if now.After(t.Time){
 		fmt.Println("pick a time in the future!")
-		os.Exit(2)
+		os.Exit(3)
 	}
 
 	timeDiff := t.Time.Sub(now)
@@ -51,13 +52,15 @@ func main(){
 		time.Sleep(timeDiff)
 		err = beeep.Alert("Reminder", strings.Join(os.Args[2:], " "), "assets/information.png" )
 		if err != nil {
-			panic(err)
+			fmt.Println(err)
+			os.Exit(4)
 		}
 	} else {
 		cmd := exec.Command(os.Args[0], os.Args[1:]...)
 		cmd.Env = append(os.Environ(), fmt.Sprintf("%s=%s", markName, markValue))
 		if err := cmd.Start(); err != nil {
-			panic(err)
+			fmt.Println(err)
+			os.Exit(5)
 		}
 		fmt.Println("Reminder will be displayed", timeDiff.Round(time.Second))
 		os.Exit(0)
