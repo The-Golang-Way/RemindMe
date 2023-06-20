@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"os/exec"
 	"strings"
 	"time"
 
@@ -50,6 +51,11 @@ func main(){
 		time.Sleep(timeDiff)
 		err = beeep.Alert("Reminder", strings.Join(os.Args[2:], " "), "assets/information.png" )
 		if err != nil {
+			panic(err)
+		}
+	} else {
+		cmd := exec.Command(os.Args[0], os.Args[1:]...)
+		if err := cmd.Start(); err != nil {
 			panic(err)
 		}
 	}
