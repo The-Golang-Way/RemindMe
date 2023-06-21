@@ -21,8 +21,11 @@ func main(){
 	var userInputTime, userInputMsg string
 	fmt.Println("Hey there! Want to send a reminder to your future self?")
 	fmt.Print("Drop the time <hh:mm> and message: ")
-	fmt.Scan(&userInputTime, &userInputMsg)
-	fmt.Println(userInputTime + userInputMsg)
+	_, err := fmt.Scan(&userInputTime, &userInputMsg)
+	if err != nil {
+		fmt.Println("Invalid input:", err)
+		os.Exit(1)
+	}
 
 	now := time.Now()
 	
@@ -31,14 +34,12 @@ func main(){
 	w.Add(common.All...)
 
 	t, err := w.Parse(userInputTime, now)
-
 	if t == nil {
-		fmt.Println("Can't parse time!")
+		fmt.Println("Error parsing time: ", err)
 		os.Exit(2)
 	}
-
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("Can't parse time!")
 		os.Exit(2)
 	}
 
@@ -59,7 +60,7 @@ func main(){
 		cmd := exec.Command(os.Args[0], userInputTime, userInputMsg)
 		cmd.Env = append(os.Environ(), fmt.Sprintf("%s=%s", envVar, envVal))
 		if err := cmd.Start(); err != nil {
-			fmt.Println(err)
+			fmt.Println("Error creating reminder process:", err)
 			os.Exit(5)
 		}
 		fmt.Println("Reminder will be displayed", timeDiff.Round(time.Second))
