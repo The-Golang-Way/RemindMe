@@ -1,7 +1,6 @@
 # RemindMe
 ## Abstract
-Simple CLI tool to set reminders
-
+CLI application for Ubuntu developers to set reminders with the native alert box
 <p align="center"><img src="https://github.com/The-Golang-Way/remindme/blob/main/demo/demo.png" width="80%"></p>
 
 
